@@ -1,0 +1,14 @@
+# Python virtual environment
+venv/
+__pycache__/
+
+# Output and temporary files
+*.mp4
+*.mp3
+*.webm
+*.png
+test_run/
+real_run/
+
+# OS generated files
+.DS_Store
