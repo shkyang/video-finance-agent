@@ -7,14 +7,14 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 def download_music(output_path):
-    print("Downloading Succession theme music from YouTube...")
+    print("Downloading Succession theme music from SoundCloud...")
     cmd = [
         "yt-dlp",
         "-x",
         "--audio-format", "mp3",
         "--ffmpeg-location", "/opt/homebrew/bin/ffmpeg",
         "-o", str(output_path),
-        "https://www.youtube.com/watch?v=77PsqaWzwG0"
+        "scsearch1:succession theme"
     ]
     subprocess.run(cmd, check=True)
     return output_path
@@ -60,15 +60,16 @@ def create_text_overlay(image_path, text, output_path, target_size=(1080, 1920))
     x = (target_size[0] - text_w) // 2
     y = (target_size[1] - text_h) // 2
     
-    # Draw semi-transparent background box behind text
-    padding = 40
-    d.rectangle(
-        [x - padding, y - padding, x + text_w + padding, y + text_h + padding],
-        fill=(0, 0, 0, 180)
-    )
-    
-    # Draw text
-    d.text((x, y), text, font=font, fill=(255, 255, 255, 255))
+    if text:
+        # Draw semi-transparent background box behind text
+        padding = 40
+        d.rectangle(
+            [x - padding, y - padding, x + text_w + padding, y + text_h + padding],
+            fill=(0, 0, 0, 180)
+        )
+        
+        # Draw text
+        d.text((x, y), text, font=font, fill=(255, 255, 255, 255))
     
     # Combine
     out = Image.alpha_composite(img.convert('RGBA'), txt_layer)
@@ -81,14 +82,17 @@ def create_video(image_files, music_file, output_music_video, durations=5):
     # Create an input text file for ffmpeg concat demuxer
     concat_file = "ffmpeg_concat.txt"
     with open(concat_file, 'w') as f:
-        for img in image_files:
+        for i, img in enumerate(image_files):
             f.write(f"file '{img}'\n")
-            f.write(f"duration {durations}\n")
+            if i == len(image_files) - 1:
+                f.write(f"duration 5\n")
+            else:
+                f.write(f"duration {durations}\n")
         # Due to a quirk in concat demuxer, repeat last file
         f.write(f"file '{image_files[-1]}'\n")
             
     # Calculate video length
-    video_length = len(image_files) * durations
+    video_length = (len(image_files) - 1) * durations + 5
     
     # ffmpeg command to mix video and audio, and loop/trim audio to fit
     cmd = [
