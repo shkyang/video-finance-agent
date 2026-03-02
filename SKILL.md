@@ -9,7 +9,7 @@ This skill allows you to take a monthly list of financial transactions and autom
 
 ## Prerequisites
 1. Analyze the user's provided transactions and sum them into 5-7 logical high-level categories sorted from most spent to least spent (e.g., Education, Taxes, Loans, Restaurants, Groceries, Shopping, Utilities).
-2. For each category, formulate an image generation prompt (e.g., "A modern brick college building on a sunny day" for "Education") and use your `generate_image` tool to generate an image for each. Save these images in a temporary directory (e.g., `/tmp/finance_images/`).
+2. For each category, formulate an image generation prompt (e.g., "A modern brick college building on a sunny day" for "Education") and use your `generate_image` tool to generate an image for each. Save these images in a temporary directory (e.g., `/tmp/finance_images/`). But first look in /tmp/finance_images for existing images. If they exist, use them. If not, generate them.
 3. Generate an initial pie chart visualization using the included `scripts/generate_pie.py` script. First, create a temporary JSON file (e.g. `amounts.json`) that maps the category strings to numerical sums (e.g. `{"Housing": 2500.0, "Food": 800.0}`). Then execute the script to generate `intro.png` breaking down the visual split of transactions:
    ```bash
    python /Users/skyang/create/tiktok-finance-skill/scripts/generate_pie.py \

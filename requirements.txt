@@ -1,2 +1,3 @@
 Pillow
 yt-dlp
+matplotlib
