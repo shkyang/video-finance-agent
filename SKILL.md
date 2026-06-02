@@ -31,13 +31,15 @@ Example format:
   "total.png": "Total Spending: $6,300\nGoals for next month:\nspend less money :("
 }
 ```
-2. Run the `generate_video.py` script provided in this skill's `scripts/` directory to create the text overlays, apply transitions, and add the "Succession" opening music (from SoundCloud).
+2. Run the `generate_video.py` script provided in this skill's `scripts/` directory to create the text overlays, apply transitions, and add the "Succession" opening music (from SoundCloud). You can optionally append a user-provided "net worth" picture and text overlay at the end of the video using `--net-worth-image` and `--net-worth-text`:
    ```bash
    python /Users/skyang/create/tiktok-finance-skill/scripts/generate_video.py \
      --image-dir /tmp/finance_images/ \
      --json /tmp/finance_images/transactions.json \
      --output /tmp/finance_tiktok_video.mp4 \
-     --download-music
+     --download-music \
+     --net-worth-image /path/to/net-worth-image.png \
+     --net-worth-text "Gained 300k"
    ```
 3. (Optional) Provide the final generated `/tmp/finance_tiktok_video.mp4` to the user and clean up the temporary directory.
 
